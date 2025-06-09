@@ -9,12 +9,12 @@ import Head from "next/head";
 export default function Home() {
   return (
     <>
-    <Head>
-      <title>Database</title>
-    </Head>
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-8">
-      <DataTable data={data} />
-    </div>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
+      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-8">
+        <ModernChartCards />
+      </div>
     </>
   );
 }
@@ -23,7 +23,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       layout: "user",
-      title: "Database",
+      title: "Reports",
     },
   };
 }

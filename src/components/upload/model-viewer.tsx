@@ -125,7 +125,6 @@ const ModelViewer = () => {
             </Bounds>
           </Suspense>
           <Environment preset="studio" />
-          <Stats />
         </Canvas>
       </CardContent>
     </Card>

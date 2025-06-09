@@ -2,17 +2,7 @@ import { FileInfo } from "@/interfaces/file.interface";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "../ui/button";
-import {
-  Download,
-  File,
-
-  Info,
-  Layers,
-
-  Trash,
-  Upload,
-
-} from "lucide-react";
+import { Download, File, Info, Layers, Trash, Upload } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Progress } from "../ui/progress";
 
@@ -29,8 +19,14 @@ export default function StepFileViewer() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const { setSelectedFile, selectedFile, getFiles, filesList, setFilesList,isFullScreen } =
-    useFileGLBContext();
+  const {
+    setSelectedFile,
+    selectedFile,
+    getFiles,
+    filesList,
+    setFilesList,
+    isFullScreen,
+  } = useFileGLBContext();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -110,6 +106,17 @@ export default function StepFileViewer() {
       }
     );
   };
+
+  const handleDownload = () => {
+    if (!selectedFile) return;
+    const link = document.createElement("a");
+    link.href = selectedFile?.glb_url;
+    link.download = selectedFile?.glb_url;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div className="  p-6">
       <div className="w-full space-y-6">
@@ -128,13 +135,19 @@ export default function StepFileViewer() {
             </Button>
           )}
         </div>
-        
+
         <div className="flex flex-col gap-6 md:grid md:grid-cols-12">
-          {filesList.length>0 &&      <div className=" md:col-span-3">
-            <ListGLBFiles />
-          </div>}
-      
-          <div className={filesList.length>0 ? " md:col-span-9": " md:col-span-12"}>
+          {filesList.length > 0 && (
+            <div className=" md:col-span-3">
+              <ListGLBFiles />
+            </div>
+          )}
+
+          <div
+            className={
+              filesList.length > 0 ? " md:col-span-9" : " md:col-span-12"
+            }
+          >
             {!selectedFile ? (
               /* Upload Area */
               <Card className="border-2 border-dashed">
@@ -181,104 +194,111 @@ export default function StepFileViewer() {
             ) : (
               /* Main Viewer Interface */
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <div className={isFullScreen ? "lg:col-span-4" : "lg:col-span-3"}>
+                <div
+                  className={isFullScreen ? "lg:col-span-4" : "lg:col-span-3"}
+                >
                   <ModelViewer />
                 </div>
 
                 {/* File Information Panel */}
 
-                {!isFullScreen &&        <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Info className="w-5 h-5" />
-                        File Information
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground">
-                          Original file
-                        </div>
-                        <div className="font-mono text-sm break-all">
-                          {selectedFile.original_filename}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground">
-                          Converted file
-                        </div>
-                        <div className="font-mono text-sm break-all">
-                          {selectedFile.converted_filename}
-                        </div>
-                      </div>
-
-                      <Separator />
-
-                      <div className="grid grid-cols-2 gap-4">
+                {!isFullScreen && (
+                  <div className="space-y-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Info className="w-5 h-5" />
+                          File Information
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
                         <div>
                           <div className="text-sm font-medium text-muted-foreground">
-                            Size
+                            Original file
+                          </div>
+                          <div className="font-mono text-sm break-all">
+                            {selectedFile.original_filename}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="text-sm font-medium text-muted-foreground">
+                            Converted file
+                          </div>
+                          <div className="font-mono text-sm break-all">
+                            {selectedFile.converted_filename}
+                          </div>
+                        </div>
+
+                        <Separator />
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <div className="text-sm font-medium text-muted-foreground">
+                              Size
+                            </div>
+                            <div className="text-sm">
+                              {selectedFile.size_mb} MB
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium text-muted-foreground">
+                              Type
+                            </div>
+                            <Badge variant="secondary">GLB</Badge>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="text-sm font-medium text-muted-foreground">
+                            Created at
                           </div>
                           <div className="text-sm">
-                            {selectedFile.size_mb} MB
+                            {new Date(
+                              selectedFile.created_at
+                            ).toISOString().slice(0,16)}
                           </div>
                         </div>
+                        <Separator />
                         <div>
                           <div className="text-sm font-medium text-muted-foreground">
-                            Type
+                            Url
                           </div>
-                          <Badge variant="secondary">GLB</Badge>
+                          <div className="font-mono text-xs break-all">
+                            {selectedFile.glb_url}
+                          </div>
                         </div>
-                      </div>
+                      </CardContent>
+                    </Card>
 
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground">
-                          Created at
-                        </div>
-                        <div className="text-sm">
-                          {new Date(
-                            selectedFile.created_at
-                          ).toLocaleDateString()}
-                        </div>
-                      </div>
-                      <Separator />
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground">
-                          Url
-                        </div>
-                        <div className="font-mono text-xs break-all">
-                          {selectedFile.glb_url}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Layers className="w-5 h-5" />
-                        Actions
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <Button className="w-full" variant="outline">
-                        <Download className="w-4 h-4 mr-2" />
-                        Export File
-                      </Button>
-                      <Button
-                        onClick={() => deleteFileByid(selectedFile.id)}
-                        className="w-full"
-                        variant="destructive"
-                      >
-                        <Trash className="w-4 h-4 mr-2" />
-                        Download File
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </div>}
-          
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Layers className="w-5 h-5" />
+                          Actions
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <Button
+                          onClick={handleDownload}
+                          className="w-full"
+                          variant="outline"
+                        >
+                          <Download className="w-4 h-4 mr-2" />
+                          Export File
+                        </Button>
+                        <Button
+                          onClick={() => deleteFileByid(selectedFile.id)}
+                          className="w-full"
+                          variant="destructive"
+                        >
+                          <Trash className="w-4 h-4 mr-2" />
+                          Delete File
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
               </div>
             )}
           </div>
