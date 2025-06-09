@@ -1,5 +1,9 @@
 # Rheonics Dashboard
 
+##  Screenshot
+
+![App Screenshot](./public/screenshot.png)
+
 ## Deployemnt
 
 You can visit the live app at:  
@@ -11,10 +15,11 @@ Clone the repository
 
 ```bash
 git clone https://github.com/GodoyMS/rheonics-dashboard.git
+cd rheonics-dashboard
 
 ```
 
-Install dependencies server:
+Install dependencies :
 
 ```bash
 npm run install
