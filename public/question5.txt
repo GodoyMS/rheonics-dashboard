@@ -1,0 +1,58 @@
+Question 5
+
+
+Overview:
+
+Here's how I would go about identifying the cause and improving performance step by step.
+
+1. Step One: Diagnose What’s Slowing Us Down
+
+Before making any changes, we need to understand what’s causing the slowness. Here are some tools I’d use:
+
+- Google PageSpeed Insights – Gives us a quick overview and practical suggestions.
+- GTmetrix – Helpful for visualizing load times, identifying large files, and seeing waterfall breakdowns.
+- WebPageTest.org – Great for measuring things like Time to First Byte (TTFB).
+- Chrome DevTools (Network tab) – Lets us analyze which files take longest to load.
+
+
+With these tools, I’d look for:
+- Large or uncompressed images
+- Too many or large JavaScript/CSS files
+- Server response time issues
+- Inefficient plugins or database queries
+
+2. Step Two: Apply Optimizations
+
+
+A. Optimize Images
+- Convert images to WebP or compress them using TinyPNG, ShortPixel, or an image optimizer plugin.
+- Enable lazy loading (`loading="lazy"`) to delay loading images until needed.
+
+B. Minify & Defer Scripts
+- Use plugins like WP Rocket to minify CSS and JS.
+- Defer or async-load non-critical scripts so they don’t block page rendering.
+
+C. Caching for Speed
+- Use a caching plugin:
+  - Free: W3 Total Cache or WP Super Cache
+  - Premium: WP Rocket
+- Enable:
+  - Page caching – Speeds up page delivery
+  - Browser caching – Reduces repeat load times
+  - GZIP compression – Shrinks files for faster transfer
+
+D. Clean Up the Database
+
+  -Use WP-Optimize to spam comments or spam data, to optimize tables
+  -Schedule this cleanup weekly to keep things tidy.
+
+E. Upgrade Hosting & PHP
+
+Use modern PHP (8.1+), which is faster and more secure.
+
+If we’re on shared hosting, consider moving to a faster host SiteGround.
+
+Enable object caching (e.g., Redis or Memcached) if supported by the host.
+
+3. Use a CDN for media files such as images or videos
+   We can use cloudflare wich offers 10GB free tier storage
