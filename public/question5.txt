@@ -50,9 +50,16 @@ E. Upgrade Hosting & PHP
 
 Use modern PHP (8.1+), which is faster and more secure.
 
-If we’re on shared hosting, consider moving to a faster host SiteGround.
+If we’re on shared hosting, consider moving to a faster host like SiteGround.
 
 Enable object caching (e.g., Redis or Memcached) if supported by the host.
 
 3. Use a CDN for media files such as images or videos
-   We can use cloudflare wich offers 10GB free tier storage
+  We can use cloudflare wich offers 10GB free tier storage
+ 
+  -Sign up at cloudflare.com
+  -Add your domain and update your DNS to use Cloudflare's nameservers
+  -Enable Caching: Cache static assets (images, CSS, JS)
+  -Enable Auto Minify: Minify HTML, CSS, and JS
+  -Enable Brotli Compression: Improves performance over GZIP
+  -Use Cloudflare's free SSL and firewall features for added performance and security
